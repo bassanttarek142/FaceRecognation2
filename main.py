@@ -27,7 +27,3 @@ while True:
 
 video.release()
 cv2.destroyAllWindows()
-
-
-
-
