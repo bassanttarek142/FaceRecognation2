@@ -7,11 +7,12 @@ pathlist = os.listdir(folderpath)
 print(pathlist)
 img_list = []
 studIds=[]
-# Importing the mode Images in the Background
+
 for path in pathlist:
  img_list.append(cv2.imread(os.path.join(folderpath,path)))
  studIds.append(os.path.splitext(path)[0])
 print(studIds)
+
 def findencode(imagelist):
     encodlist=[]
     for img in imagelist:
@@ -19,7 +20,9 @@ def findencode(imagelist):
       encode=face_recognition.face_encodings(img)[0]
       encodlist.append(encode)
     return encodlist
+
 print("encoding start")
+
 encodelistknown=findencode(img_list)
 encodelistknownwithids=[encodelistknown,studIds]
 print(encodelistknown)
