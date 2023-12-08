@@ -6,6 +6,8 @@ import numpy as np
 import cvzone
 import csv
 import datetime
+import tkinter as tk
+from tkinter import messagebox
 
 # Setup webcam
 video = cv2.VideoCapture(0)
@@ -32,12 +34,21 @@ print("Encodingfile loaded")
 
 marked_attendance = set()
 
+def popup_msg(msg):
+    root = tk.Tk()
+    root.withdraw()  # hide the main window
+    messagebox.showinfo("Info", msg)
+    root.destroy()
+
 def export_attendance(attendance_list):
-    with open(f'attendance_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', 'w', newline='') as file:
+    filename = f'attendance_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv'
+    with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Student ID", "Time"])
         for student_id in attendance_list:
             writer.writerow([student_id, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+    return filename
+
 
 
 while True:
@@ -52,8 +63,6 @@ while True:
 
    Background[200:200 + 432, 55:55 + 765] = frame_small
    Background[140:140 + 420, 970:970 + 230] = img_mode_list[2]
-
-
 
    # Compare between encoding generator match or not
    for encodeface, faceloc in zip(encodecurframe, facecurframe):
@@ -85,16 +94,13 @@ while True:
    
    
    cv2.imshow("Attendance system", Background)
-   press = cv2.waitKey(1)
-   if press == ord("B"):
-       break
 
-   press = cv2.waitKey(1)
+   press = cv2.waitKey(1000)
    if press == ord("b"): #press b to exit
-        break
+       break
    elif press == ord("e"):  #press e to export attendance
-        export_attendance(marked_attendance)
-        print("Attendance exported") 
+       exported_file = export_attendance(marked_attendance)
+       popup_msg(f"Attendance exported to {exported_file}")
 
 video.release()
 cv2.destroyAllWindows()
