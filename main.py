@@ -4,6 +4,8 @@ import os
 import face_recognition
 import numpy as np
 import cvzone
+import csv
+import datetime
 
 # Setup webcam
 video = cv2.VideoCapture(0)
@@ -30,6 +32,14 @@ print("Encodingfile loaded")
 
 marked_attendance = set()
 
+def export_attendance(attendance_list):
+    with open(f'attendance_{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Student ID", "Time"])
+        for student_id in attendance_list:
+            writer.writerow([student_id, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+
+
 while True:
    is_capture, frame = video.read()
    frame_small = cv2.resize(frame, (765, 432), None, 0.25, 0.25)
@@ -42,6 +52,8 @@ while True:
 
    Background[200:200 + 432, 55:55 + 765] = frame_small
    Background[140:140 + 420, 970:970 + 230] = img_mode_list[2]
+
+
 
    # Compare between encoding generator match or not
    for encodeface, faceloc in zip(encodecurframe, facecurframe):
@@ -70,11 +82,19 @@ while True:
                               (0, 0, 255), 2)
                 cv2.putText(Background, "Already Marked", (int(bbox[0]), int(bbox[1] - 10)), 
                             cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 2)
-
+   
+   
    cv2.imshow("Attendance system", Background)
    press = cv2.waitKey(1)
    if press == ord("B"):
        break
+
+   press = cv2.waitKey(1)
+   if press == ord("b"): #press b to exit
+        break
+   elif press == ord("e"):  #press e to export attendance
+        export_attendance(marked_attendance)
+        print("Attendance exported") 
 
 video.release()
 cv2.destroyAllWindows()
