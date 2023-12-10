@@ -10,7 +10,7 @@ firebase_admin.initialize_app(cred, {
 ref = db.reference('Students')
 
 data = {
-    "1" :
+    "120200181" :
     {
         "name" : "Rowida Elsayed Mahmoud",
         "id" : "120200181",
@@ -18,7 +18,7 @@ data = {
         "year" : 4,
         "Last_attendance_time" : "2023-12-07 00:54:34"
     },
-     "2" :
+     "120200013" :
     {
         "name" : "Rewan Yehia Aboubakr",
         "id" : "120200013",
@@ -26,7 +26,7 @@ data = {
         "year" : 4,
         "Last_attendance_time" : "2023-12-07 00:54:34"
     },
-     "3" :
+     "120200244" :
     {
         "name" : "Bassant Tarek",
         "id" : "120200244",
@@ -34,7 +34,7 @@ data = {
         "year" : 4,
         "Last_attendance_time" : "2023-12-07 00:54:34"
     },
-     "4" :
+     "120200211" :
     {
         "name" : "Noha Omar Mahmoud",
         "id" : "120200211",
@@ -42,7 +42,7 @@ data = {
         "year" : 4,
         "Last_attendance_time" : "2023-12-07 00:54:34"
     },
-     "5" :
+     "120200067" :
     {
         "name" : "Gasser Amr",
         "id" : "120200067",
