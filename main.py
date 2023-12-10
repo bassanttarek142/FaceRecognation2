@@ -64,7 +64,7 @@ while True:
 
        if matches[matchIndex] == True:
            print("Detected Known Face")
-           print(studIds[matchIndex])B
+           print(studIds[matchIndex])
 
            y1, x2, y2, x1 = faceloc
            y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
@@ -75,7 +75,7 @@ while True:
            # Change the modes in the Background
            if counter == 0:
                counter = 1
-               
+
    if counter !=0 :
        # Get the studentInfo from the database based on his id
        if counter == 1:
