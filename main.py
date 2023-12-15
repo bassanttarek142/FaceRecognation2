@@ -16,6 +16,37 @@ firebase_admin.initialize_app(cred, {
     'storageBucket' : "facerecognition-159b3.appspot.com"
 })
 
+def resize_and_crop(img, target_size):
+    # Calculate the aspect ratio of the target size
+    target_height, target_width = target_size
+    target_aspect = target_width / target_height
+
+    # Calculate the aspect ratio of the input image
+    h, w = img.shape[:2]
+    img_aspect = w / h
+
+    # Determine whether to fit to width or height
+    if img_aspect > target_aspect:
+        # Fit to height, then crop width
+        new_height = target_height
+        new_width = int(img_aspect * new_height)
+    else:
+        # Fit to width, then crop height
+        new_width = target_width
+        new_height = int(new_width / img_aspect)
+
+    # Resize the image with the new dimensions
+    resized_img = cv2.resize(img, (new_width, new_height))
+
+    # Calculate the cropping coordinates
+    x_crop = max(0, (new_width - target_width) // 2)
+    y_crop = max(0, (new_height - target_height) // 2)
+
+    # Crop the resized image
+    cropped_img = resized_img[y_crop:y_crop + target_height, x_crop:x_crop + target_width]
+
+    return cropped_img
+
 bucket = storage.bucket()
 # Setup webcam
 video = cv2.VideoCapture(0)
@@ -95,18 +126,24 @@ while True:
        array = np.frombuffer(blob.download_as_string(), np.uint8)
        imgStudent = cv2.imdecode(array,cv2.COLOR_BGRA2BGR)
 
+       # New target size for the student's image (width, height)
+       target_size = (200, 200)
+       
        # Resize the student's image
-       imgStudent = cv2.resize(imgStudent, (146, 216))
+       imgStudent = resize_and_crop(imgStudent, target_size)
 
 
-       cv2.putText(Background , studentInfo['name'], (1028, 445),
+       cv2.putText(Background , studentInfo['name'], (1046, 440),
                    cv2.FONT_HERSHEY_COMPLEX ,0.4 , (255, 0, 0) ,1 )
 
-       cv2.putText(Background, studentInfo['id'], (1030, 524),
+       cv2.putText(Background, studentInfo['id'], (1050, 517),
 
                    cv2.FONT_HERSHEY_COMPLEX, 0.4, (255, 0, 0), 1)
 
-       Background[140:140 + 216, 1010:1010 + 146] = imgStudent
+       # Placement coordinates for the new size (adjust as needed)
+       placement_start_x = 982
+       placement_start_y = 140
+       Background[placement_start_y:placement_start_y + target_size[1], placement_start_x:placement_start_x + target_size[0]] = imgStudent
 
        counter +=1
 
