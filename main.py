@@ -96,7 +96,7 @@ while True:
        imgStudent = cv2.imdecode(array,cv2.COLOR_BGRA2BGR)
 
        # Resize the student's image
-       imgStudent = cv2.resize(imgStudent, (216, 216))
+       imgStudent = cv2.resize(imgStudent, (146, 216))
 
 
        cv2.putText(Background , studentInfo['name'], (1028, 445),
@@ -106,7 +106,7 @@ while True:
 
                    cv2.FONT_HERSHEY_COMPLEX, 0.4, (255, 0, 0), 1)
 
-       Background[140:140 + 216, 970:970 + 216] = imgStudent
+       Background[140:140 + 216, 1010:1010 + 146] = imgStudent
 
        counter +=1
 
