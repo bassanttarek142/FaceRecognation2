@@ -118,7 +118,7 @@ while True:
            studentInfo = db.reference(f'Students/{student_id}').get()
            print(studentInfo)
        #Get the Image from the storage
-       blob = bucket.get_blob(f'Datasets/{id}.jpeg')
+       blob = bucket.get_blob(f'Datasets/{id}.png')
 
        blobs = bucket.list_blobs()
        for blob in blobs:
