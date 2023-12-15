@@ -16,6 +16,7 @@ firebase_admin.initialize_app(cred, {
     'storageBucket' : "facerecognition-159b3.appspot.com"
 })
 
+bucket = storage.bucket()
 # Setup webcam
 video = cv2.VideoCapture(0)
 video.set(3, 765)
@@ -42,6 +43,8 @@ print("Encodingfile loaded")
 modetype = 0
 counter = 0
 student_id = -1
+imgStudent =[]
+
 while True:
    is_capture, frame = video.read()
    frame_small = cv2.resize(frame, (765, 432), None, 0.25, 0.25)
@@ -53,7 +56,7 @@ while True:
    #print("Face encodings: ", encodecurframe) # Debugging line
 
    Background[200:200 + 432, 55:55 + 765] = frame_small
-   Background[140:140 + 420, 970:970 + 230] = img_mode_list[0]
+   Background[140:140 + 420, 970:970 + 230] = img_mode_list[modetype]
 
    # Compare between encoding generator match or not
    for encodeface, faceloc in zip(encodecurframe, facecurframe):
@@ -70,17 +73,40 @@ while True:
            y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
            bbox = 55 + x1, 162 + y1, x2 - x1, y2 - y1
 
-           Background = cvzone.cornerRect(Background, bbox, rt=0)
+           #Background = cvzone.cornerRect(Background, bbox, rt=0)
            student_id= studIds[matchIndex]
            # Change the modes in the Background
            if counter == 0:
                counter = 1
+               modetype = 1
+
 
    if counter !=0 :
        # Get the studentInfo from the database based on his id
        if counter == 1:
            studentInfo = db.reference(f'Students/{student_id}').get()
            print(studentInfo)
+       #Get the Image from the storage
+       blob = bucket.get_blob(f'Datasets/{id}.jpeg')
+
+       blobs = bucket.list_blobs()
+       for blob in blobs:
+           print(blob.name)
+       array = np.frombuffer(blob.download_as_string(), np.uint8)
+       imgStudent = cv2.imdecode(array,cv2.COLOR_BGRA2BGR)
+
+       # Resize the student's image
+       imgStudent = cv2.resize(imgStudent, (216, 216))
+
+
+       cv2.putText(Background , studentInfo['name'], (1028, 445),
+                   cv2.FONT_HERSHEY_COMPLEX ,0.4 , (255, 0, 0) ,1 )
+
+       cv2.putText(Background, studentInfo['id'], (1030, 524),
+
+                   cv2.FONT_HERSHEY_COMPLEX, 0.4, (255, 0, 0), 1)
+
+       Background[140:140 + 216, 970:970 + 216] = imgStudent
 
        counter +=1
 
