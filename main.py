@@ -118,11 +118,12 @@ while True:
            studentInfo = db.reference(f'Students/{student_id}').get()
            print(studentInfo)
        #Get the Image from the storage
-       blob = bucket.get_blob(f'Datasets/{id}.png')
+       blob = bucket.get_blob(f'Datasets/{student_id}.png')
+       print(f'Retrieving image with ID: {student_id}')
 
        blobs = bucket.list_blobs()
-       for blob in blobs:
-           print(blob.name)
+       #for blob in blobs:
+           #print(blob.name)
        array = np.frombuffer(blob.download_as_string(), np.uint8)
        imgStudent = cv2.imdecode(array,cv2.COLOR_BGRA2BGR)
 

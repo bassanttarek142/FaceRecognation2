@@ -12,7 +12,7 @@ ref = db.reference('Students')
 data = {
     "120200181" :
     {
-        "name" : "Rowida Elsayed Mahmoud",
+        "name" : "Rowida Elsayed",
         "id" : "120200181",
         "total_attendance":6,
         "year" : 4,
@@ -20,7 +20,7 @@ data = {
     },
      "120200013" :
     {
-        "name" : "Rewan Yehia Aboubakr",
+        "name" : "Rewan Yehia",
         "id" : "120200013",
         "total_attendance":6,
         "year" : 4,
@@ -36,7 +36,7 @@ data = {
     },
      "120200211" :
     {
-        "name" : "Noha Omar Mahmoud",
+        "name" : "Noha Mahmoud",
         "id" : "120200211",
         "total_attendance":6,
         "year" : 4,
@@ -49,7 +49,27 @@ data = {
         "total_attendance":6,
         "year" : 4,
         "Last_attendance_time" : "2023-12-07 00:54:34"
-    }
+    },
+
+    "220200045":
+        {
+            "name": "Shahed Nagy",
+            "id": "220200045",
+            "total_attendance": 6,
+            "year": 4,
+            "Last_attendance_time": "2023-12-07 00:54:34"
+
+        },
+    "220200046":
+        {
+            "name": "Shimaa Alaa",
+            "id": "220200046",
+            "total_attendance": 6,
+            "year": 4,
+            "Last_attendance_time": "2023-12-07 00:54:34"
+
+        },
+
 }
 
 for key, value in data.items():
