@@ -51,24 +51,6 @@ data = {
         "Last_attendance_time" : "2023-12-07 00:54:34"
     },
 
-    "220200045":
-        {
-            "name": "Shahed Nagy",
-            "id": "220200045",
-            "total_attendance": 6,
-            "year": 4,
-            "Last_attendance_time": "2023-12-07 00:54:34"
-
-        },
-    "220200046":
-        {
-            "name": "Shimaa Alaa",
-            "id": "220200046",
-            "total_attendance": 6,
-            "year": 4,
-            "Last_attendance_time": "2023-12-07 00:54:34"
-
-        },
 
 }
 
